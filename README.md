@@ -57,7 +57,7 @@ For all of the examples below, assume that we've created an instance of `Article
 
 ### Basic Requirements
 
-The requirements listed in this section apply only to the `Article` class.
+_The requirements listed in this section apply only to the `Article` class._
 
 1. Write an `__init__` method that stores the arguments for the four parameters as attributes. The attributes should have the same name as the parameters and be publicly available:
 
@@ -84,7 +84,7 @@ The requirements listed in this section apply only to the `Article` class.
     61
     ```
 
-4. Websites often feature a short section of an article on their homepage. Write a method called `short_introduction` that takes an `int` as an argument for `n_character` and returns such a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To not "break-off" awkwardly in the middle of a word, you should find the last space or newline character before you go over `n_characters` and break on that. You may assume that there's always a space or newline character to break on in the first `n_characters`.
+4. Websites often feature a short section of an article on their homepage. Write a method called `short_introduction` that takes an `int` as an argument for `n_characters` and returns such a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To not "break-off" awkwardly in the middle of a word, you should find the last space or newline character before you go over `n_characters` and break on that. You may assume that there's always a space or newline character to break on in the first `n_characters`.
     ```py
     >>> fairytale.short_introduction(n_characters=60)
     "'But he has nothing at all on!' at last cried out all the"
@@ -103,7 +103,38 @@ The requirements listed in this section apply only to the `Article` class.
 
 ### Intermediate Requirements
 
-- Show that you've mastered common tricks like `@property`
+_The requirements listed in this section apply only to the `Article` class._
+
+1. A common way of uniquely identifying an article is by giving it a unique `id` number. Add a feature to the class that gives each new `Article` that you create a unique `id` number. The numbers should be sequential and, in good Python tradition, the first article should get an `id` of `0`:
+    ```py
+    >>> article_one = Article(title="PEP-8", author="Guide van Rossum", content="Use snake_case", publication_date=datetime.datetime(2001, 7, 5))
+    >>> article_one.id
+    0
+    >>> article_two = Article(title="Fluent Python", author="Luciano Ramalho", content="Effective Programming", publication_date=datetime.datetime(2015, 8, 20))
+    >>> article_two.id
+    1
+    ```
+    - You should not define anything outside of the class definition to accomplish this, so no "global" variables
+
+2. Making mistakes is human and so is trying to fix them. Keep track of moment the most recent change was made to the article's content in a new attribute, `last_edited`. Each time a new value is set for the `content` attribute, you should automatically keep track of the current date and time by using `datetime.datetime.now()`. To not make a breaking change to the "API" of the class, `content` should still be accessed and changed with normal attribute access. Set the initial value of `last_edited`, before the first edit was made, to `None` in the `__init__`.
+    ```py
+    >>> fairytale.last_edited
+    None
+    >>> fairytale.content = "I'm making a change to the content of this article"
+    >>> fairytale.last_edited
+    datetime.datetime(2020, 5, 26, 19, 41, 10)  # My local time at the time of writing
+    ```
+
+3. A common operation on a collection of articles is to sort them by their publication date. Implement support for sorting `Article` objects directly without having to use a `key` function for `sorted` or `list.sort`. The sorting order should be based solely on the `publication_date` attribute and sorting in ascending order (the default) should result in the oldest article first.
+    ```py
+    >>> articles = [
+    ...     Article(..., publication_date=datetime.datetime(2001, 7, 5)),
+    ...     Article(..., publication_date=datetime.datetime(1837, 4, 7)),
+    ...     Article(..., publication_date=datetime.datetime(2015, 8, 20),
+    ... ]
+    >>> sorted(articles)
+    [<Article ... publication_date="1837-04-07T...">, <Article ... publication_date="2001-07-05T...">, <Article ... publication_date="2015-8-20T...">]
+    ```
 
 ### Advanced Requirements
 
