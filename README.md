@@ -57,7 +57,7 @@ For all of the examples below, assume that we've created an instance of `Article
 
 ### Basic Requirements
 
-_The requirements listed in this section apply only to the `Article` class._
+_The requirements listed in this section only apply to the `Article` class._
 
 1. Write an `__init__` method that stores the arguments for the four parameters as attributes. The attributes should have the same name as the parameters and be publicly available:
 
@@ -103,7 +103,7 @@ _The requirements listed in this section apply only to the `Article` class._
 
 ### Intermediate Requirements
 
-_The requirements listed in this section apply only to the `Article` class._
+_The requirements listed in this section only apply to the `Article` class._
 
 1. A common way of uniquely identifying an article is by giving it a unique `id` number. Add a feature to the class that gives each new `Article` that you create a unique `id` number. The numbers should be sequential and, in good Python tradition, the first article should get an `id` of `0`:
     ```py
@@ -114,9 +114,9 @@ _The requirements listed in this section apply only to the `Article` class._
     >>> article_two.id
     1
     ```
-    - You should not define anything outside of the class definition to accomplish this, so no "global" variables
+    - You should not define anything outside of the class definition to accomplish this, so no "global" variables.
 
-2. Making mistakes is human and so is trying to fix them. Keep track of moment the most recent change was made to the article's content in a new attribute, `last_edited`. Each time a new value is set for the `content` attribute, you should automatically keep track of the current date and time by using `datetime.datetime.now()`. To not make a breaking change to the "API" of the class, `content` should still be accessed and changed with normal attribute access. Set the initial value of `last_edited`, before the first edit was made, to `None` in the `__init__`.
+2. Making mistakes is human and so is trying to fix them. Keep track of the moment the most recent change to the article's `content` was made with a new attribute, `last_edited`. Each time a new value is set for the `content` attribute, you should automatically keep track of the current date and time by using `datetime.datetime.now()`. To not make a breaking change to the "API" of the class, `content` should still be accessed and changed with normal attribute access. Set the initial value of `last_edited`, before the first edit was made, to `None` in the `__init__`.
     ```py
     >>> fairytale.last_edited
     None
