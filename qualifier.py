@@ -13,14 +13,15 @@ Important notes for submission:
   remove all debug prints and other debug statements before you submit your
   solution.
 """
+import datetime
 
 
 class ArticleField:
-    """
-    The `ArticleField` class for the Advanced Requirements. Leave this class
-    as-is if you do not want to tackle the advanced requirements.
-    """
+    """The `ArticleField` class for the Advanced Requirements."""
 
 
 class Article:
     """The `Article` class you need to write for the qualifier."""
+
+    def __init__(self, title: str, author: str, publication_date: datetime.datetime, content: str):
+        pass
