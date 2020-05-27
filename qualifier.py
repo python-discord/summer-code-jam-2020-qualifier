@@ -14,10 +14,14 @@ Important notes for submission:
   solution.
 """
 import datetime
+import typing
 
 
 class ArticleField:
     """The `ArticleField` class for the Advanced Requirements."""
+
+    def __init__(self, field_type: typing.Type[typing.Any]):
+        pass
 
 
 class Article:

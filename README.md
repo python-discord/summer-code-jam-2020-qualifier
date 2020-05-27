@@ -59,7 +59,7 @@ For all of the examples below, assume that we've created an instance of `Article
 
 _The requirements listed in this section only apply to the `Article` class._
 
-1. Write an `__init__` method that stores the arguments for the four parameters as attributes. The attributes should have the same name as the parameters and be publicly available:
+1. Write an `__init__` method that stores the arguments for the four parameters as attributes. The attributes should be publicly available using the same names as the parameters:
 
     ```py
     >>> fairytale.title
@@ -73,37 +73,37 @@ _The requirements listed in this section only apply to the `Article` class._
     >>> print(repr(fairytale))
     <Article title="The emperor's new clothes" author='Hans Christian Andersen' publication_date='1837-04-07T12:15:00'>
     ```
-    - The value for `publication_date` is formatted using `datetime.datetime.isoformat()` 
-    - Make sure to use the `repr` of the values for `title`, `author`, and `publication_date.isoformat()`
+    - The value for `publication_date` is formatted using `datetime.datetime.isoformat()`.
+    - Make sure to use the `repr` of the values for `title`, `author`, and `publication_date.isoformat()`.
 
 3. As it's also nice to know how long an article is, implement support for the built-in function `len`. The value it should return is the length of the value for `content`:
     ```py
     >>> fairytale.content
-    "'But the Emperor has nothing at all on!' said a little child."
+    "'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right."
     >>> len(fairytale)
-    61
+    128
     ```
 
-4. Websites often feature a short section of an article on their homepage. Write a method called `short_introduction` that takes an `int` as an argument for `n_characters` and returns such a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To not "break-off" awkwardly in the middle of a word, you should find the last space or newline character before you go over `n_characters` and break on that. You may assume that there's always a space or newline character to break on in the first `n_characters`.
+4. Blogs often feature a short section of an article on their frontpage. Write a method called `short_introduction` that takes an `int` as an argument for `n_characters` and returns such a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To not "break-off" awkwardly in the middle of a word, you should find the last space or newline character before you go over `n_characters` and break on that. You may assume that there's always a space or newline character to break on in the first `n_characters`.
     ```py
     >>> fairytale.short_introduction(n_characters=60)
     "'But he has nothing at all on!' at last cried out all the"
     ```
     - The value returned by `Article.short_introduction` should **not** include the space/newline character you used to break up the text.
 
-5. It's often interesting to have some statistics to display. Write a method called `most_common_words` that takes a single `int` as an argument for `n_words` and returns a dictionary of the `n_words` most common words in the `content` of the article. Words that are tied should be ordered with the order in which they first appeared in the `content` and you should ignore the case of the words (`"The"` and `"the"` count as the same word).
+5. It's often interesting to have some statistics to show on your blog. Write a method called `most_common_words` that takes a single `int` as an argument for `n_words` and returns a dictionary of the `n_words` most common words in the `content` of the article. Words that are tied in frequency should be ordered in the order in which they first appeared in the `content` and you should ignore the case of the words (`"The"` and `"the"` count as the same word).
     ```py
     >>> fairytale.most_common_words(5)
     {'the': 3, 'he': 2, 'at': 2, 'all': 2, 'people': 2}
     >>> fairytale.most_common_words(3)
     {'the': 3, 'he': 2, 'at': 2}
     ```
-   - Output the words in lowercase in the dictionary
-   - Every non-alphabet character counts as a space/wordbreak; that means that `"It's"` counts as two "words": `"it"` and `"s"`.
+   - Output the words in lowercase in the dictionary.
+   - Every non-alphabet character counts as a space/wordbreak; this means that `"It's"` counts as two "words": `"it"` and `"s"`.
 
 ### Intermediate Requirements
 
-_The requirements listed in this section only apply to the `Article` class._
+_The requirements listed in this section only apply to the `Article` class. Please make sure that the changes you make for the requirements this section don't break any of the requirements listed in the previous section._
 
 1. A common way of uniquely identifying an article is by giving it a unique `id` number. Add a feature to the class that gives each new `Article` that you create a unique `id` number. The numbers should be sequential and, in good Python tradition, the first article should get an `id` of `0`:
     ```py
@@ -138,7 +138,38 @@ _The requirements listed in this section only apply to the `Article` class._
 
 ### Advanced Requirements
 
-- Show that you've mastered the advanced parts of the Python data model
+_The requirements in this section will ask you to implement the `ArticleField` class. It is not necessary to make changes to the `Article` class, but if you do, make sure that the tests for the requirements in previous sections still pass._
+
+While duck typing is a common practise in Python, the data of to articles will probably have to be saved to a database with a rigid data types scheme. That's why we want to introduce some type checking for attributes to catch errors early rather than late. In this section, you'll implement a simple descriptor that checks if the value we are trying to assign to an attribute has the correct type.
+
+1. Implement a descriptor, `ArticleField`, that checks if the value we are trying to assign to an instance attribute has the correct type. As we want to be able to reuse the same descriptor class for different types, its `__init__` method expects one argument (for `field_type`): the type it should check against. To not be too rigid, the type check should allow instances of subclasses of the type in addition to the type itself.
+
+    If the value has the correct type, the assignment should happen normally; if not, the descriptor should raise a [`TypeError`](https://docs.python.org/3/library/exceptions.html#TypeError):
+    ```py
+    >>> class Article:
+    ...     attribute = ArticleField(field_type=int)
+    >>> article = Article(...)
+    >>> article.attribute = 10
+    >>> article.attribute
+    10
+    >>> article.attribute = "some string"
+    Traceback (most recent call last):
+        ...
+    TypeError: some message here
+    >>> article.attribute
+    10
+    ```
+
+2. Whenever you raise an exception, it's important to give the developer who will have to deal with the exception enough information to know what's going on. That's why the exception message should include the name of the attribute we're trying to assign something to, the name of type that was expected, and the name of the type that it received instead. If you had not done that already, adjust your descriptor so that it always includes those three pieces of information in the exception message. You should not change the function signature of the `__init__` method to do this (i.e., you can't pass the name of the attribute to `__init__`).
+    ```py
+    >>> class Article:
+    ...     age = ArticleField(field_type=int)
+    >>> article = Article(...)
+    >>> article.age = "some string"
+    Traceback (most recent call last):
+        ...
+    TypeError: expected an instance of type `int` for attribute `age`, got `str` instead
+    ```
 
 ## Test Suite
 To help you test your solution before submitting it, we've written a basic test suite that tests if your code passes the requirements. In principle, if your solutions passes the basic requirements section in this test suite, you should qualify for the Code Jam.
