@@ -40,3 +40,18 @@ class BasicTests(unittest.TestCase):
     def test_len(self):
         """Using len(article) should return the article's content's length."""
         self.assertEqual(len(self.article.content), len(self.article))
+
+    def test_short_introduction(self):
+        """Should return content truncated at a space/newline to at most n_characters."""
+        contents = (
+            (self.content, "'But he has nothing", 20),
+            ("'I know I'm not stupid,' the man thought,", "'I know I'm not stupid,' the", 31),
+            ("'Magnificent,' said the two officials already duped", "'Magnificent,'", 15),
+            ("see anything.\nHis whole", "see anything.", 16),
+        )
+
+        for content, expected, n in contents:
+            with self.subTest(content=content, expected=expected, n=n):
+                self.article.content = content
+                actual = self.article.short_introduction(n_characters=n)
+                self.assertEqual(expected, actual)
