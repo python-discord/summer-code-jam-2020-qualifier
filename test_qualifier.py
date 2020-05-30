@@ -27,3 +27,12 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(self.author, self.article.author)
         self.assertEqual(self.content, self.article.content)
         self.assertEqual(self.publication_date, self.article.publication_date)
+
+    def test_repr(self):
+        """The repr should be in a specific format, which includes the title, author, and date."""
+        actual_repr = repr(self.article)
+        expected_repr = (
+            "<Article title=\"The emperor's new clothes\" author='Hans Christian Andersen' "
+            "publication_date='1837-04-07T12:15:00'>"
+        )
+        self.assertEqual(expected_repr, actual_repr)
