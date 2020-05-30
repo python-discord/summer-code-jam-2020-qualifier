@@ -1,8 +1,8 @@
 # Summer Code Jam 2020: Qualifier
 
-To qualify for the upcoming Summer Code Jam, you'll have to complete a qualifier assignment. In the assignment, you will be asked to write an `Article` class that could be used to represent an article published on a website.
+To qualify for the upcoming Summer Code Jam, you'll have to complete a qualifier assignment. For the assignment, you'll have to write an `Article` class that could be used to represent an article published on a website.
 
-Please read the instructions carefully and submit your solution before the deadline using the sign-up form. Also note that **we've included a test suite** that you can use to test your solution before you submit it.
+Please read the instructions carefully and submit your solution before the deadline using the sign-up form. Also, note that **we've included a test suite** you can use to test your solution before you submit it.
 
 ## Table of Contents
 
@@ -22,29 +22,29 @@ The qualifier assignment has three sections of increasing difficulty:
 2. [Intermediate Requirements](#advanced-requirements)
 3. [Advanced Requirements](#advanced-requirements)
 
-To qualify for the Code Jam, your solution has to **pass the basic requirements**. However, we do want to urge you to at least try the intermediate and/or advanced requirements if you think you can tackle them. We will publish our solution for the qualifier after the deadline has passed.
+To qualify for the Code Jam, your solution has to **pass the basic requirements**. However, we urge you to at least try the intermediate and/or advanced requirements if you think you can tackle them. We will publish our solution for the qualifier after the deadline has passed.
 
 ## Rules and Guidelines
 
-- Your submission will be tested using a Python 3.8.3 interpreter with no additional packages installed. This means that you're allowed to use everything that is included in Python's standard library, but nothing else. Please make sure to include the relevant `import`-statements in the solution you submit.
+- Your submission will be tested using a Python 3.8.3 interpreter without any additional packages installed. You're allowed to use everything included in Python's standard library, but nothing else. Please make sure to include the relevant `import` statements in your submission.
 
 - Use [`qualifier.py`](qualifier.py) as the base for your solution. It includes stubs for the two classes you need to write: `Article` and `ArticleField`.
 
-- Do not change the **names** of the two classes included in [`qualifier.py`](qualifier.py). The test suite that we will use to judge your submission relies on existence these two classes. Everything else, including the docstring of the classes, may be changed.
+- Do not change the **names** of the two classes included in [`qualifier.py`](qualifier.py). The test suite we will use to judge your submission relies on these two classes. Everything else, including the docstrings of the classes, may be changed.
 
 - You can leave the `ArticleField` class as-is if you do not wish to tackle the advanced requirements.
 
-- Do not include "debug"-code in your submission. This means that you should remove all debug prints and other debug statements before you submit your solution.
+- Do not include "debug" code in your submission. You should remove all debug prints and other debug statements before you submit your solution.
 
-- This qualifier task is supposed to be **an individual challenge.** This means that you should not discuss (parts of) your solution to the qualifier task in public (including our server) and that you should try to solve it individually. Obviously, this does not mean that you can't do research or ask questions about the Python concepts you're using to solve the qualifier, but try to use general examples when you post code during this process.
+- This qualifier task is supposed to be **an individual challenge**, so try to solve it on your own. You should not discuss (parts of) your solution in public (including our server). You are still allowed to do research and ask questions about Python as they relate to your qualifier solution, but try to use general examples if you post code along with your questions.
 
 ## Qualifier Assignment
 
-For this assignment, you'll write an `Article` class to represent articles published to a blog. The `Article` objects you can create with this class will have attributes like `title` and `author` and you will write a few methods to work with these objects. We've added a "stub" for your `Article` class in the [`qualifier.py`](qualifier.py) file for you extend.
+For this assignment, you'll write an `Article` class to represent articles published to a blog. Instances of this class will have attributes like `title` and `author`. You will also write a few methods to work with these classes. We've added a "stub" for your `Article` class in the [`qualifier.py`](qualifier.py) file for you fill in.
 
-Please read the requirements below carefully, as it's important that the code you write meets those requirements exactly. Also note that there's a [test suite](#test-suite) available for  you to test your code before you submit it.
+Please read the requirements below carefully; it's important for your code to meet those requirements exactly. Also, note that there's a [test suite](#test-suite) available for  you to test your code before you submit it.
 
-For all of the examples below, assume that we've created an instance of `Article` like this:
+For all the examples below, assume we've created an instance of `Article` like this:
 
 ```py
 >>> fairytale = Article(
@@ -59,7 +59,7 @@ For all of the examples below, assume that we've created an instance of `Article
 
 _The requirements listed in this section only apply to the `Article` class._
 
-1. Write an `__init__` method that stores the arguments for the four parameters as attributes. The attributes should be publicly available using the same names as the parameters:
+1. Write an `__init__` method that stores the arguments for the four parameters (`title`, `author`, `content`, and `publication_date`) as attributes. The attributes should be publicly available using the same names as the parameters.
 
     ```py
     >>> fairytale.title
@@ -68,7 +68,7 @@ _The requirements listed in this section only apply to the `Article` class._
     datetime.datetime(1837, 4, 7, 12, 15, 0)
     ```
 
-2. To make debugging easier, implement a `__repr__` method that returns a string representation that matches this format exactly:
+2. To make debugging easier, implement a `__repr__` method that returns a string representation of the class. It should exactly match the following format:
     ```py
     >>> print(repr(fairytale))
     <Article title="The emperor's new clothes" author='Hans Christian Andersen' publication_date='1837-04-07T12:15:00'>
@@ -76,7 +76,7 @@ _The requirements listed in this section only apply to the `Article` class._
     - The value for `publication_date` is formatted using `datetime.datetime.isoformat()`.
     - Make sure to use the `repr` of the values for `title`, `author`, and `publication_date.isoformat()`.
 
-3. As it's also nice to know how long an article is, implement support for the built-in function `len`. The value it should return is the length of the value for `content`:
+3. As it's nice to know how long an article is, implement support for the built-in function `len`. It should return the length of `content`.
     ```py
     >>> fairytale.content
     "'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right."
@@ -84,14 +84,14 @@ _The requirements listed in this section only apply to the `Article` class._
     128
     ```
 
-4. Blogs often feature a short section of an article on their frontpage. Write a method called `short_introduction` that takes an `int` as an argument for `n_characters` and returns such a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To not "break-off" awkwardly in the middle of a word, you should find the last space or newline character before you go over `n_characters` and break on that. You may assume that there's always a space or newline character to break on in the first `n_characters`.
+4. Blogs often feature a short section of an article on their front page. Write a method called `short_introduction` that has an `int` parameter named `n_characters`. The method should return a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To avoid awkwardly cutting off text in the middle of a word, find and "cut" the text on the last space or newline character within the first `n_characters`. You may assume there's always at least one space or newline character within the first `n_characters`.
     ```py
     >>> fairytale.short_introduction(n_characters=60)
     "'But he has nothing at all on!' at last cried out all the"
     ```
-    - The value returned by `Article.short_introduction` should **not** include the space/newline character you used to break up the text.
+    - The value returned by `Article.short_introduction` should **not** include the space or newline character you used to break up the text.
 
-5. It's often interesting to have some statistics to show on your blog. Write a method called `most_common_words` that takes a single `int` as an argument for `n_words` and returns a dictionary of the `n_words` most common words in the `content` of the article. Words that are tied in frequency should be ordered in the order in which they first appeared in the `content` and you should ignore the case of the words (`"The"` and `"the"` count as the same word).
+5. It's often interesting to have some statistics to show on your blog. Write a method called `most_common_words` that has an `int` parameter named `n_words`. The method should return a dictionary of the `n_words` most common words in the `content` of the article. If words have the same frequency, order them in the same order in which they first appeared in the `content`. The method should also be case-insensitive (for example, `"The"` and `"the"` count as the same word).
     ```py
     >>> fairytale.most_common_words(5)
     {'the': 3, 'he': 2, 'at': 2, 'all': 2, 'people': 2}
@@ -99,13 +99,13 @@ _The requirements listed in this section only apply to the `Article` class._
     {'the': 3, 'he': 2, 'at': 2}
     ```
    - Output the words in lowercase in the dictionary.
-   - Every non-alphabet character counts as a space/wordbreak; this means that `"It's"` counts as two "words": `"it"` and `"s"`.
+   - Every non-alphabet character counts as a space or word break. For example, `"It's"` counts as two "words": `"it"` and `"s"`.
 
 ### Intermediate Requirements
 
-_The requirements listed in this section only apply to the `Article` class. Please make sure that the changes you make for the requirements this section don't break any of the requirements listed in the previous section._
+_The requirements listed in this section only apply to the `Article` class. Please make sure the changes you make for the requirements this section don't break any of the requirements listed in the previous section._
 
-1. A common way of uniquely identifying an article is by giving it a unique `id` number. Add a feature to the class that gives each new `Article` that you create a unique `id` number. The numbers should be sequential and, in good Python tradition, the first article should get an `id` of `0`:
+1. A common way to uniquely identify an article is to give it a unique number. Add a feature to the class that gives each new `Article` a unique `id` number. The numbers should be sequential and, in good Python tradition, the first article should get an `id` of `0`.
     ```py
     >>> article_one = Article(title="PEP-8", author="Guide van Rossum", content="Use snake_case", publication_date=datetime.datetime(2001, 7, 5))
     >>> article_one.id
@@ -114,9 +114,9 @@ _The requirements listed in this section only apply to the `Article` class. Plea
     >>> article_two.id
     1
     ```
-    - You should not define anything outside of the class definition to accomplish this, so no "global" variables.
+    - You should not define anything outside of the class definition to accomplish this; do not use "global" variables.
 
-2. Making mistakes is human and so is trying to fix them. Keep track of the moment the most recent change to the article's `content` was made with a new attribute, `last_edited`. Each time a new value is set for the `content` attribute, you should automatically keep track of the current date and time by using `datetime.datetime.now()`. To not make a breaking change to the "API" of the class, `content` should still be accessed and changed with normal attribute access. Set the initial value of `last_edited`, before the first edit was made, to `None` in the `__init__`.
+2. Making mistakes is human and so is trying to fix them. Add a feature to keep track of when the most recent change was made to the article's `content`. Create a new attribute named `last_edited` and set its initial value to `None`. When a change is made to the `content`, obtain the current date and time with `datetime.datetime.now()` and assign it to `last_edited`. To avoid making breaking changes to the class's "API", `content` should still be accessed and changed with normal attribute access.
     ```py
     >>> fairytale.last_edited
     None
@@ -125,7 +125,7 @@ _The requirements listed in this section only apply to the `Article` class. Plea
     datetime.datetime(2020, 5, 26, 19, 41, 10)  # My local time at the time of writing
     ```
 
-3. A common operation on a collection of articles is to sort them by their publication date. Implement support for sorting `Article` objects directly without having to use a `key` function for `sorted` or `list.sort`. The sorting order should be based solely on the `publication_date` attribute and sorting in ascending order (the default) should result in the oldest article first.
+3. A common operation on a collection of articles is to sort them by their publication date. Add support for sorting `Article` objects directly without having to use a `key` function for `sorted` or `list.sort`. The sorting order should be based solely on the `publication_date` attribute. Sorting in ascending order (the default) should result in the oldest article being first.
     ```py
     >>> articles = [
     ...     Article(..., publication_date=datetime.datetime(2001, 7, 5)),
@@ -138,11 +138,11 @@ _The requirements listed in this section only apply to the `Article` class. Plea
 
 ### Advanced Requirements
 
-_The requirements in this section will ask you to implement the `ArticleField` class. It is not necessary to make changes to the `Article` class, but if you do, make sure that the tests for the requirements in previous sections still pass._
+_The requirements in this section will ask you to implement the `ArticleField` class. It is not necessary to make changes to the `Article` class, but if you do, make sure the tests for the requirements in previous sections still pass._
 
-While duck typing is a common practise in Python, the data of to articles will probably have to be saved to a database with a rigid data types scheme. That's why we want to introduce some type checking for attributes to catch errors early rather than late. In this section, you'll implement a simple descriptor that checks if the value we are trying to assign to an attribute has the correct type.
+While duck typing is a common practice in Python, type checking can come in handy. For example, articles will probably have to be saved to a database with a rigid data type scheme. The types of the article's attributes can be checked upon assignment to catch type errors early rather than late. In this section, you'll implement a simple descriptor that checks if the value assigned to an attribute has the correct type.
 
-1. Implement a descriptor, `ArticleField`, that checks if the value we are trying to assign to an instance attribute has the correct type. As we want to be able to reuse the same descriptor class for different types, its `__init__` method expects one argument (for `field_type`): the type it should check against. To not be too rigid, the type check should allow instances of subclasses of the type in addition to the type itself.
+1. Implement a descriptor, `ArticleField`, that checks if the value assigned to an instance attribute has the correct type. To make the descriptor reusable for different types, its `__init__` method should have a `field_type` parameter, which is the type it should check against. To not be too rigid, the type check should allow instances of subclasses of the type in addition to the type itself.
 
     If the value has the correct type, the assignment should happen normally; if not, the descriptor should raise a [`TypeError`](https://docs.python.org/3/library/exceptions.html#TypeError):
     ```py
@@ -160,7 +160,7 @@ While duck typing is a common practise in Python, the data of to articles will p
     10
     ```
 
-2. Whenever you raise an exception, it's important to give the developer who will have to deal with the exception enough information to know what's going on. That's why the exception message should include the name of the attribute we're trying to assign something to, the name of type that was expected, and the name of the type that it received instead. If you had not done that already, adjust your descriptor so that it always includes those three pieces of information in the exception message. You should not change the function signature of the `__init__` method to do this (i.e., you can't pass the name of the attribute to `__init__`).
+2. Whenever you raise an exception, it's important to give the developer enough information to debug the error. Modify your descriptor's exception message to include the name of the attribute being assigned, the name of type that was expected, and the name of the type that was received instead. You should not change the function signature of the `__init__` method to do this; do not pass the name of the attribute to `__init__`.
     ```py
     >>> class Article:
     ...     age = ArticleField(field_type=int)
@@ -172,18 +172,18 @@ While duck typing is a common practise in Python, the data of to articles will p
     ```
 
 ## Test Suite
-To help you test your solution before submitting it, we've written a basic test suite that tests if your code passes the requirements. In principle, if your solutions passes the basic requirements section in this test suite, you should qualify for the Code Jam.
+We've written a basic test suite that tests if your code passes the requirements above. We strongly suggest you run these tests before you submit your solution. In principle, if your solutions passes the tests for the basic requirements, you should qualify for the Code Jam.
 
-It's perfectly fine to have a look at the tests that we are going to run (see [test_qualifier.py](test_qualifier.py)), but do note that we will run the tests with different data to ensure that solutions were not written specifically for the included tests.
+It's perfectly fine to have a look at the tests (see [test_qualifier.py](test_qualifier.py)). This is the same test suite we will use to judge your solution. However, note that we will run the tests with different data to ensure that solutions were not written to only work with the exact data provided.
 
 ### Running the Test Suite
 
-To run the test suite, first download and place the files [`test_qualifier.py`](test_qualifier.py) and [`run_test.py`](run_test.py) in the same directory as the file containing your solution. After having done so, open a terminal/command window with that directory as the working directory and run:
+To run the test suite, first download the files [`test_qualifier.py`](test_qualifier.py) and [`run_test.py`](run_test.py). Place these files in the same directory as the file containing your solution. Then, open a terminal/command window and change the current directory to your solution's directory. Finally, run the following command:
 
 ```
 python run_test.py <your_filename_here>
 ```
 
-**Note:** You may have to replace `python` with the command you use to run Python from the command line. If you're not sure and are using Windows, try `py` instead of `python` if `python` doesn't work.
+**Note:** You may have to replace `python` with the command you use to run Python from the command line. If you're using Windows and `python` doesn't work, try `py` instead.
 
 The test suite has been tested with Python 3.7 and Python 3.8.
