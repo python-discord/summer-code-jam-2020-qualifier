@@ -42,7 +42,7 @@ To qualify for the Code Jam, your solution has to **pass the basic requirements*
 
 For this assignment, you'll write an `Article` class to represent articles published to a blog. Instances of this class will have attributes like `title` and `author`. You will also write a few methods to work with these classes. We've added a "stub" for your `Article` class in the [`qualifier.py`](qualifier.py) file for you fill in.
 
-Please read the requirements below carefully; it's important for your code to meet those requirements exactly. Also, note that there's a [test suite](#test-suite) available for  you to test your code before you submit it.
+Please read the requirements below carefully; it's important for your code to meet those requirements exactly. Also, note that there's a [test suite](#test-suite) available for you to test your code before you submit it.
 
 For all the examples below, assume we've created an instance of `Article` like this:
 
