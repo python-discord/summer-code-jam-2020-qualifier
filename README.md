@@ -84,7 +84,7 @@ _The requirements listed in this section only apply to the `Article` class._
     128
     ```
 
-4. Blogs often feature a short section of an article on their front page. Write a method called `short_introduction` that has an `int` parameter named `n_characters`. The method should return a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To avoid awkwardly cutting off text in the middle of a word, find and "cut" the text on the last space or newline character within the first `n_characters`. You may assume there's always at least one space or newline character within the first `n_characters`.
+4. Blogs often feature a short section of an article on their front page. Write a method called `short_introduction` that has an `int` parameter named `n_characters`. The method should return a short introduction that contains **at most** `n_characters` from the start of the article's `content`. To avoid awkwardly cutting off text in the middle of a word, find and "cut" the text on the last space or newline character within the first `n_characters + 1`. You may assume there's always at least one space or newline character within the first `n_characters + 1`.
     ```py
     >>> fairytale.short_introduction(n_characters=60)
     "'But he has nothing at all on!' at last cried out all the"
