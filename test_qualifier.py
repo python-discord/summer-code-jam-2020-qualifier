@@ -36,3 +36,7 @@ class BasicTests(unittest.TestCase):
             "publication_date='1837-04-07T12:15:00'>"
         )
         self.assertEqual(expected_repr, actual_repr)
+
+    def test_len(self):
+        """Using len(article) should return the article's content's length."""
+        self.assertEqual(len(self.article.content), len(self.article))
