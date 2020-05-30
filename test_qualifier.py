@@ -55,3 +55,20 @@ class BasicTests(unittest.TestCase):
                 self.article.content = content
                 actual = self.article.short_introduction(n_characters=n)
                 self.assertEqual(expected, actual)
+
+    def test_most_common_words(self):
+        """Should return a dictionary of the n_words most common words in the content."""
+        contents = (
+            (self.content, {"at": 2, "all": 2, "but": 1, "he": 1, "has": 1}, 5),
+            ("'I know I'm not stupid,'", {"i": 2, "know": 1, "m": 1}, 3),
+            ("'Magnificent,' said the two officials", {"magnificent": 1, "said": 1}, 2),
+            ("of his.\nHis whole", {"his": 2, "of": 1}, 2),
+            ("Am I a fool?", {}, 0),
+            ("All the town",  {"all": 1, "the": 1, "town": 1}, 9372)
+        )
+
+        for content, expected, n in contents:
+            with self.subTest(content=content, expected=expected, n=n):
+                self.article.content = content
+                actual = self.article.most_common_words(n)
+                self.assertEqual(expected, actual)
