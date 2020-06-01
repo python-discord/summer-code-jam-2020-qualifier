@@ -1,5 +1,7 @@
 import datetime
+import sys
 import unittest
+from typing import Type
 
 from qualifier import Article
 
@@ -72,3 +74,35 @@ class BasicTests(unittest.TestCase):
                 self.article.content = content
                 actual = self.article.most_common_words(n)
                 self.assertEqual(expected, actual)
+
+
+class IntermediateTests(unittest.TestCase):
+    """Tests for the intermediate requirements."""
+
+    @staticmethod
+    def get_reset_article() -> Type[Article]:
+        """Re-import the qualifier module to reset any class attributes of the Article."""
+        # https://stackoverflow.com/a/27604236/5717792
+        try:
+            del sys.modules['qualifier']
+        except KeyError:
+            pass
+
+        from qualifier import Article
+        return Article
+
+    def test_unique_id(self):
+        """New Articles should be assigned a unique, sequential ID starting at 0."""
+        Article = self.get_reset_article()
+        now = datetime.datetime.now()
+        articles = []
+
+        for _ in range(5):
+            article = Article(title="a", author="b", content="c", publication_date=now)
+            articles.append(article)
+
+        # Assert in a separate loop to ensure that new articles didn't affect previous IDs.
+        for expected_id, article in enumerate(articles):
+            self.assertEqual(expected_id, article.id)
+
+
