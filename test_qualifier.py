@@ -2,6 +2,7 @@ import datetime
 import sys
 import unittest
 from typing import Type
+from unittest import mock
 
 from qualifier import Article
 
@@ -94,15 +95,29 @@ class IntermediateTests(unittest.TestCase):
     def test_unique_id(self):
         """New Articles should be assigned a unique, sequential ID starting at 0."""
         Article = self.get_reset_article()
-        now = datetime.datetime.now()
         articles = []
 
         for _ in range(5):
-            article = Article(title="a", author="b", content="c", publication_date=now)
+            article = Article(title="a", author="b", content="c", publication_date=mock.Mock())
             articles.append(article)
 
         # Assert in a separate loop to ensure that new articles didn't affect previous IDs.
         for expected_id, article in enumerate(articles):
             self.assertEqual(expected_id, article.id)
 
+    @mock.patch("qualifier.datetime")
+    def test_last_edited(self, local_datetime):
+        """Attribute should update to the current time when the content changes."""
+        article = Article(title="a", author="b", content="c", publication_date=mock.Mock())
+        self.assertIsNone(article.last_edited, "Initial value of last_edited should be None")
 
+        # Set twice to account for both "import datetime" and "from datetime import datetime"
+        side_effects = ("first datetime", "second datetime")
+        local_datetime.now.side_effect = side_effects
+        local_datetime.datetime.now.side_effect = side_effects
+
+        article.content = "'I know I'm not stupid,' the man thought,"
+        self.assertEqual(side_effects[0], article.last_edited)
+
+        article.content = "'Magnificent,' said the two officials"
+        self.assertEqual(side_effects[1], article.last_edited)
