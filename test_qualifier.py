@@ -121,3 +121,17 @@ class IntermediateTests(unittest.TestCase):
 
         article.content = "'Magnificent,' said the two officials"
         self.assertEqual(side_effects[1], article.last_edited)
+
+    def test_sort(self):
+        """Articles should be inherently sortable by their publication date."""
+        kwargs = {"title": "a", "author": "b", "content": "c"}
+        articles = [
+            Article(**kwargs, publication_date=datetime.datetime(2001, 7, 5)),
+            Article(**kwargs, publication_date=datetime.datetime(1837, 4, 7)),
+            Article(**kwargs, publication_date=datetime.datetime(2015, 8, 20)),
+            Article(**kwargs, publication_date=datetime.datetime(1837, 4, 7)),
+        ]
+
+        expected = [articles[1], articles[3], articles[0], articles[2]]
+        actual = sorted(articles)
+        self.assertSequenceEqual(expected, actual)

@@ -130,7 +130,7 @@ _The requirements listed in this section only apply to the `Article` class. Plea
     >>> articles = [
     ...     Article(..., publication_date=datetime.datetime(2001, 7, 5)),
     ...     Article(..., publication_date=datetime.datetime(1837, 4, 7)),
-    ...     Article(..., publication_date=datetime.datetime(2015, 8, 20),
+    ...     Article(..., publication_date=datetime.datetime(2015, 8, 20)),
     ... ]
     >>> sorted(articles)
     [<Article ... publication_date="1837-04-07T...">, <Article ... publication_date="2001-07-05T...">, <Article ... publication_date="2015-8-20T...">]
