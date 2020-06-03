@@ -4,7 +4,7 @@ import unittest
 from typing import Type
 from unittest import mock
 
-from qualifier import Article
+from qualifier import Article, ArticleField
 
 
 class BasicTests(unittest.TestCase):
@@ -135,3 +135,40 @@ class IntermediateTests(unittest.TestCase):
         expected = [articles[1], articles[3], articles[0], articles[2]]
         actual = sorted(articles)
         self.assertSequenceEqual(expected, actual)
+
+
+class AdvancedTests(unittest.TestCase):
+    """Tests for the advanced requirements."""
+
+    def setUp(self) -> None:
+        """Before running each test, instantiate some classes which use an ArticleField."""
+        class TestArticle:
+            """Test class which uses an ArticleField."""
+            attribute = ArticleField(field_type=int)
+
+        self.article = TestArticle()
+        self.article_2 = TestArticle()
+
+    def test_descriptor_valid_type(self):
+        """Should successfully get and set a value of a valid type."""
+        class CustomInt(int):
+            """int subclass used to test that the descriptor considers subclasses valid."""
+
+        values = (10, CustomInt(20))
+        for value in values:
+            with self.subTest(value=value):
+                self.article.attribute = value
+                self.assertEqual(value, self.article.attribute)
+
+    def test_descriptor_raises_type_error(self):
+        """Setting a value with an invalid type should raise a TypeError."""
+        with self.assertRaises(TypeError):
+            self.article.attribute = "some string"
+
+    def test_descriptor_values_are_separate(self):
+        """Should store a separate value for each instance of a class using the descriptor."""
+        self.article.attribute = 10
+        self.article_2.attribute = 20
+
+        self.assertEqual(10, self.article.attribute)
+        self.assertEqual(20, self.article_2.attribute)
