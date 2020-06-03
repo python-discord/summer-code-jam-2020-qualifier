@@ -160,7 +160,7 @@ While duck typing is a common practice in Python, type checking can come in hand
     10
     ```
 
-2. Whenever you raise an exception, it's important to give the developer enough information to debug the error. Modify your descriptor's exception message to include the name of the attribute being assigned, the name of type that was expected, and the name of the type that was received instead. You should not change the function signature of the `__init__` method to do this; do not pass the name of the attribute to `__init__`.
+2. Whenever you raise an exception, it's important to give the developer enough information to debug the error. Modify your descriptor's exception message to include the name of the attribute being assigned, the name of type that was expected, and the name of the type that was received instead. You should not change the function signature of the `__init__` method to do this; do not pass the name of the attribute to `__init__`. The message should exactly match the following format:
     ```py
     >>> class Article:
     ...     age = ArticleField(field_type=int)
@@ -168,7 +168,7 @@ While duck typing is a common practice in Python, type checking can come in hand
     >>> article.age = "some string"
     Traceback (most recent call last):
         ...
-    TypeError: expected an instance of type `int` for attribute `age`, got `str` instead
+    TypeError: expected an instance of type 'int' for attribute 'age', got 'str' instead
     ```
 
 ## Test Suite
