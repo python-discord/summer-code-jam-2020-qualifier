@@ -1,4 +1,5 @@
 import datetime
+import re
 import sys
 import unittest
 from typing import Type
@@ -172,3 +173,9 @@ class AdvancedTests(unittest.TestCase):
 
         self.assertEqual(10, self.article.attribute)
         self.assertEqual(20, self.article_2.attribute)
+
+    def test_descriptor_type_error_message(self):
+        """Should include the attribute's name, the expected type, and the received type."""
+        msg = "expected an instance of type 'int' for attribute 'attribute', got 'str' instead"
+        with self.assertRaisesRegex(TypeError, re.escape(msg)):
+            self.article.attribute = "some string"
