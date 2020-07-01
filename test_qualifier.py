@@ -1,14 +1,12 @@
 import datetime
-import re
-import sys
+import importlib
 import unittest
-from typing import Type
 from unittest import mock
 
-from qualifier import Article, ArticleField
+import qualifier
 
 
-class BasicTests(unittest.TestCase):
+class T100BasicTests(unittest.TestCase):
     """Tests for the basic requirements."""
 
     def setUp(self) -> None:
@@ -18,21 +16,24 @@ class BasicTests(unittest.TestCase):
         self.content = "'But he has nothing at all on!' at last cried out all the people."
         self.publication_date = datetime.datetime(1837, 4, 7, 12, 15, 0)
 
-        self.article = Article(
+        self.article = qualifier.Article(
             title=self.title,
             author=self.author,
             content=self.content,
             publication_date=self.publication_date
         )
 
-    def test_instantiation(self):
+    def test_101_instantiation(self):
         """The parameters given to __init__ should be assigned to attributes with the same names."""
-        self.assertEqual(self.title, self.article.title)
-        self.assertEqual(self.author, self.article.author)
-        self.assertEqual(self.content, self.article.content)
-        self.assertEqual(self.publication_date, self.article.publication_date)
+        for attribute in ("title", "author", "content", "publication_date"):
+            with self.subTest(attribute=attribute):
+                self.assertTrue(
+                    hasattr(self.article, attribute),
+                    msg=f"The Article instance has no `{attribute}` attribute"
+                )
+                self.assertEqual(getattr(self, attribute), getattr(self.article, attribute))
 
-    def test_repr(self):
+    def test_102_repr(self):
         """The repr should be in a specific format, which includes the title, author, and date."""
         actual_repr = repr(self.article)
         expected_repr = (
@@ -41,17 +42,23 @@ class BasicTests(unittest.TestCase):
         )
         self.assertEqual(expected_repr, actual_repr)
 
-    def test_len(self):
+    def test_103_len(self):
         """Using len(article) should return the article's content's length."""
+        self.assertTrue(hasattr(self.article, "__len__"), msg="Article has no `__len__` method.")
         self.assertEqual(len(self.article.content), len(self.article))
 
-    def test_short_introduction(self):
-        """Should return content truncated at a space/newline to at most n_characters."""
+    def test_104_short_introduction(self):
+        """short_introduction should truncate at a space/newline to at most n_characters."""
         contents = (
             (self.content, "'But he has nothing", 20),
             ("'I know I'm not stupid,' the man thought,", "'I know I'm not stupid,' the", 31),
             ("'Magnificent,' said the two officials already duped", "'Magnificent,'", 15),
             ("see anything.\nHis whole", "see anything.", 16),
+        )
+
+        self.assertTrue(
+            hasattr(self.article, "short_introduction"),
+            msg="Article has no `short_introduction` method."
         )
 
         for content, expected, n in contents:
@@ -60,8 +67,8 @@ class BasicTests(unittest.TestCase):
                 actual = self.article.short_introduction(n_characters=n)
                 self.assertEqual(expected, actual)
 
-    def test_most_common_words(self):
-        """Should return a dictionary of the n_words most common words in the content."""
+    def test_105_most_common_words(self):
+        """most_common_words should return a dictionary of the n_words most common words."""
         contents = (
             (self.content, {"at": 2, "all": 2, "but": 1, "he": 1, "has": 1}, 5),
             ("'I know I'm not stupid,'", {"i": 2, "know": 1, "m": 1}, 3),
@@ -71,6 +78,11 @@ class BasicTests(unittest.TestCase):
             ("All the town",  {"all": 1, "the": 1, "town": 1}, 9372)
         )
 
+        self.assertTrue(
+            hasattr(self.article, "most_common_words"),
+            msg="Article has no `most_common_words` method."
+        )
+
         for content, expected, n in contents:
             with self.subTest(content=content, expected=expected, n=n):
                 self.article.content = content
@@ -78,38 +90,37 @@ class BasicTests(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
 
-class IntermediateTests(unittest.TestCase):
+class T200IntermediateTests(unittest.TestCase):
     """Tests for the intermediate requirements."""
 
-    @staticmethod
-    def get_reset_article() -> Type[Article]:
-        """Re-import the qualifier module to reset any class attributes of the Article."""
-        # https://stackoverflow.com/a/27604236/5717792
-        try:
-            del sys.modules['qualifier']
-        except KeyError:
-            pass
-
-        from qualifier import Article
-        return Article
-
-    def test_unique_id(self):
+    def test_201_unique_id(self):
         """New Articles should be assigned a unique, sequential ID starting at 0."""
-        Article = self.get_reset_article()
+        importlib.reload(qualifier)
         articles = []
 
         for _ in range(5):
-            article = Article(title="a", author="b", content="c", publication_date=mock.Mock())
+            article = qualifier.Article(
+                title="a", author="b", content="c", publication_date=mock.Mock()
+            )
             articles.append(article)
 
         # Assert in a separate loop to ensure that new articles didn't affect previous IDs.
         for expected_id, article in enumerate(articles):
+            self.assertTrue(hasattr(article, "id"), msg="`Article` object has no `id` attribute")
             self.assertEqual(expected_id, article.id)
 
     @mock.patch("qualifier.datetime")
-    def test_last_edited(self, local_datetime):
-        """Attribute should update to the current time when the content changes."""
-        article = Article(title="a", author="b", content="c", publication_date=mock.Mock())
+    def test_202_last_edited(self, local_datetime):
+        """last_edited attribute should update to the current time when the content changes."""
+        article = qualifier.Article(
+            title="a", author="b", content="c", publication_date=mock.Mock()
+        )
+
+        self.assertTrue(
+            hasattr(article, "last_edited"),
+            msg="`Article` object has no `last_edited` attribute"
+        )
+
         self.assertIsNone(article.last_edited, "Initial value of last_edited should be None")
 
         # Set twice to account for both "import datetime" and "from datetime import datetime"
@@ -123,35 +134,44 @@ class IntermediateTests(unittest.TestCase):
         article.content = "'Magnificent,' said the two officials"
         self.assertEqual(side_effects[1], article.last_edited)
 
-    def test_sort(self):
+    def test_203_sort(self):
         """Articles should be inherently sortable by their publication date."""
         kwargs = {"title": "a", "author": "b", "content": "c"}
         articles = [
-            Article(**kwargs, publication_date=datetime.datetime(2001, 7, 5)),
-            Article(**kwargs, publication_date=datetime.datetime(1837, 4, 7)),
-            Article(**kwargs, publication_date=datetime.datetime(2015, 8, 20)),
-            Article(**kwargs, publication_date=datetime.datetime(1837, 4, 7)),
+            qualifier.Article(**kwargs, publication_date=datetime.datetime(2001, 7, 5)),
+            qualifier.Article(**kwargs, publication_date=datetime.datetime(1837, 4, 7)),
+            qualifier.Article(**kwargs, publication_date=datetime.datetime(2015, 8, 20)),
+            qualifier.Article(**kwargs, publication_date=datetime.datetime(1837, 4, 7)),
         ]
 
         expected = [articles[1], articles[3], articles[0], articles[2]]
-        actual = sorted(articles)
+        try:
+            actual = sorted(articles)
+        except TypeError:
+            self.fail("`Article` does not support sorting.")
         self.assertSequenceEqual(expected, actual)
 
 
-class AdvancedTests(unittest.TestCase):
+NOT_A_DESCRIPTOR = "The `ArticleField` class is not a data descriptor."
+
+
+@unittest.skipUnless(hasattr(qualifier.ArticleField, "__set__"), reason=NOT_A_DESCRIPTOR)
+class T300AdvancedTests(unittest.TestCase):
     """Tests for the advanced requirements."""
+
+    minimal_descriptor = hasattr(qualifier.ArticleField, "__set__")
 
     def setUp(self) -> None:
         """Before running each test, instantiate some classes which use an ArticleField."""
         class TestArticle:
             """Test class which uses an ArticleField."""
-            attribute = ArticleField(field_type=int)
+            attribute = qualifier.ArticleField(field_type=int)
 
         self.article = TestArticle()
         self.article_2 = TestArticle()
 
-    def test_descriptor_valid_type(self):
-        """Should successfully get and set a value of a valid type."""
+    def test_301_descriptor_properly_validates_values(self):
+        """The ArticleField descriptor successfully get and set a value of a valid type."""
         class CustomInt(int):
             """int subclass used to test that the descriptor considers subclasses valid."""
 
@@ -159,14 +179,18 @@ class AdvancedTests(unittest.TestCase):
         for value in values:
             with self.subTest(value=value):
                 self.article.attribute = value
-                self.assertEqual(value, self.article.attribute)
+                self.assertEqual(
+                    value,
+                    self.article.attribute,
+                    msg="The attribute value is not equal to the value that was assigned to it."
+                )
 
-    def test_descriptor_raises_type_error(self):
+    def test_302_descriptor_raises_type_error(self):
         """Setting a value with an invalid type should raise a TypeError."""
-        with self.assertRaises(TypeError):
+        with self.assertRaises(TypeError, msg="Setting an incorrect type should raise a TypeError"):
             self.article.attribute = "some string"
 
-    def test_descriptor_values_are_separate(self):
+    def test_303_descriptor_values_are_separate(self):
         """Should store a separate value for each instance of a class using the descriptor."""
         self.article.attribute = 10
         self.article_2.attribute = 20
@@ -174,8 +198,24 @@ class AdvancedTests(unittest.TestCase):
         self.assertEqual(10, self.article.attribute)
         self.assertEqual(20, self.article_2.attribute)
 
-    def test_descriptor_type_error_message(self):
+    def test_304_descriptor_type_error_message(self):
         """Should include the attribute's name, the expected type, and the received type."""
-        msg = "expected an instance of type 'int' for attribute 'attribute', got 'str' instead"
-        with self.assertRaisesRegex(TypeError, re.escape(msg)):
+        with self.assertRaises(TypeError) as assertion_context:
             self.article.attribute = "some string"
+
+        exception_message = str(assertion_context.exception)
+        self.assertIn(
+            "int",
+            exception_message,
+            msg="The exception message should include the expected type",
+        )
+        self.assertIn(
+            "attribute",
+            exception_message,
+            msg="The exception message should include the name of the attribute",
+        )
+        self.assertIn(
+            "str",
+            exception_message,
+            msg="The exception message should include the received type",
+        )
