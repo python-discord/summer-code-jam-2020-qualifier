@@ -181,7 +181,7 @@ It's perfectly fine to have a look at the tests (see [test_qualifier.py](test_qu
 
 ### Running the Test Suite
 
-To run the test suite, first download the files [`test_qualifier.py`](test_qualifier.py) and [`run_test.py`](run_tests.py). Place these files in the same directory as the file containing your solution and **make sure the file containing your solution is called `qualifier.py`**. Then, open a terminal/command window and change the current directory to your solution's directory. Finally, run the following command:
+To run the test suite, first download the files [`test_qualifier.py`](test_qualifier.py) and [`run_tests.py`](run_tests.py). Place these files in the same directory as the file containing your solution and **make sure the file containing your solution is called `qualifier.py`**. Then, open a terminal/command window and change the current directory to your solution's directory. Finally, run the following command:
 
 ```
 python run_tests.py
