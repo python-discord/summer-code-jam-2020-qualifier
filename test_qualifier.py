@@ -124,7 +124,10 @@ class T200IntermediateTests(unittest.TestCase):
         self.assertIsNone(article.last_edited, "Initial value of last_edited should be None")
 
         # Set twice to account for both "import datetime" and "from datetime import datetime"
-        side_effects = ("first datetime", "second datetime")
+        side_effects = (
+            datetime.datetime(2020, 7, 2, 15, 3, 10),
+            datetime.datetime(2020, 7, 2, 16, 3, 10),
+        )
         local_datetime.now.side_effect = side_effects
         local_datetime.datetime.now.side_effect = side_effects
 
