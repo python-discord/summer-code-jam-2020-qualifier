@@ -100,7 +100,7 @@ class T200IntermediateTests(unittest.TestCase):
 
         for _ in range(5):
             article = qualifier.Article(
-                title="a", author="b", content="c", publication_date=mock.Mock()
+                title="a", author="b", content="c", publication_date=mock.Mock(datetime.datetime)
             )
             articles.append(article)
 
@@ -113,7 +113,7 @@ class T200IntermediateTests(unittest.TestCase):
     def test_202_last_edited(self, local_datetime):
         """last_edited attribute should update to the current time when the content changes."""
         article = qualifier.Article(
-            title="a", author="b", content="c", publication_date=mock.Mock()
+            title="a", author="b", content="c", publication_date=mock.Mock(datetime.datetime)
         )
 
         self.assertTrue(
