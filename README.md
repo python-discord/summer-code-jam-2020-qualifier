@@ -10,7 +10,7 @@ Please read the instructions carefully and submit your solution before the deadl
 - [Rules and Guidelines](#rules-and-guidelines)
 - [Qualifier Assignment](#qualifier-assignment)
   - [Basic Requirements](#basic-requirements)
-  - [Intermediate Requirements](#advanced-requirements)
+  - [Intermediate Requirements](#intermediate-requirements)
   - [Advanced Requirements](#advanced-requirements)
 - [Test Suite](#test-suite)
   - [Running the Test Suite](#running-the-test-suite)
