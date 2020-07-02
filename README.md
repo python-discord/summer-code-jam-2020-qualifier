@@ -187,6 +187,6 @@ To run the test suite, first download the files [`test_qualifier.py`](test_quali
 python run_tests.py
 ```
 
-**Note:** You may have to replace `python` with the command you use to run Python from the command line. If you're using Windows and `python` doesn't work, try `py` instead.
+**Note:** You may have to replace `python` with the command you use to run Python from the command line. If you're using Windows and `python` doesn't work, try `py` instead. If you're using Linux, you may have to use `python3` instead.
 
 The test suite requires **at least Python 3.7**. It has also been confirmed to work with 3.8.
