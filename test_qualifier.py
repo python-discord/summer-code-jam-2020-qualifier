@@ -1,5 +1,6 @@
 import datetime
 import importlib
+import re
 import unittest
 from unittest import mock
 
@@ -203,22 +204,6 @@ class T300AdvancedTests(unittest.TestCase):
 
     def test_304_descriptor_type_error_message(self):
         """Should include the attribute's name, the expected type, and the received type."""
-        with self.assertRaises(TypeError) as assertion_context:
+        msg = "expected an instance of type 'int' for attribute 'attribute', got 'str' instead"
+        with self.assertRaisesRegex(TypeError, re.escape(msg)):
             self.article.attribute = "some string"
-
-        exception_message = str(assertion_context.exception)
-        self.assertIn(
-            "int",
-            exception_message,
-            msg="The exception message should include the expected type",
-        )
-        self.assertIn(
-            "attribute",
-            exception_message,
-            msg="The exception message should include the name of the attribute",
-        )
-        self.assertIn(
-            "str",
-            exception_message,
-            msg="The exception message should include the received type",
-        )
