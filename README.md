@@ -4,8 +4,7 @@ To qualify for the upcoming Summer Code Jam, you'll have to complete a qualifier
 
 Please read the instructions carefully and submit your solution before the deadline using the [sign-up form](https://forms.gle/RpGCrLXyn8U92c156). Also, note that **we've included a test suite** you can use to test your solution before you submit it.
 
-- **Deadline:** July 22, 2020  
-- **Sign-up form:** [https://forms.gle/RpGCrLXyn8U92c156](https://forms.gle/RpGCrLXyn8U92c156)
+- **The deadline for signing up has passed!** It's no longer possible to sign up for the Summer Code Jam.
 
 ## Table of Contents
 
